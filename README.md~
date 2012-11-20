@@ -21,7 +21,7 @@ Standard output variables includes (first three in *summary.txt*):
 
 The java code makes use of the [jnativehook](http://code.google.com/p/jnativehook/) library (you guys are awesome!) which can capture mouse gestures and keyboard movement system-wide. 
 
-You can visualize the data by applying the `plot.py` program (you'll need python installed). It will plot all the given positions from **positions.csv** to a transparent PNG-image, which you can then combine with a screenshot of the scene the capture took place.
+You can visualize the data by applying the `plot.py` program (you'll need python installed). It will plot all the given positions from ***positions.csv** to a transparent PNG-image, which you can then combine with a screenshot of the scene the capture took place.
 
 You may want to customize your screen size and the line color, depending on the background of your screenshot you use to make the captured data visible:
 
