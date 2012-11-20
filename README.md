@@ -29,7 +29,7 @@ You may want to customize your screen size and the line color, depending on the 
 
 There's some sample data also in there, and you see a capture of me playing Angry Birds:
 
-![](InputCapture/master/result.png)
+![](https://raw.github.com/captainfox/InputCapture/master/result.png)
 
 
 ## Disclaimer
