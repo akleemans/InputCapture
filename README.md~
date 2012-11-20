@@ -5,11 +5,11 @@ A simple tool for capturing user input like mouse positions, movement, key strok
 
 ## Usage
 
-For capturing mouse movement and keystrokes, just run the java code and press CTRL + Q to save. If you have trouble starting it, import it as a Eclipse project and it should work.
+For capturing mouse movement and keystrokes, just run the java code. If you have trouble starting it, import it as a Eclipse project and it should work.
 
-Remember: **CTRL + Q** _saves_ the log files and **overwrites** the old log files. So you might save your files after a run.
+Remember: **CTRL + W** _saves_ the log files and **overwrites** the old log files. So you might save your files after a run.
 
-For starting a new capture, I suggest to run the Code, and press CTRL + Q if you're ready (that will override the existing data). Then capture your run (or let the users do the tests) and at the end, hit CTRL + Q again to save the data until to that point. You can then end the running java code without writing that back into files.
+For starting a new capture, I suggest to run the Code, and press CTRL + W if you're ready (that will override the existing data). Then capture your run (or let the users do the tests) and at the end, hit CTRL + W again to save the data until to that point. You can then end the running java code without writing that back into files.
 
 Standard output variables includes (first three in *summary.txt*):
 
