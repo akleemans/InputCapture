@@ -1,0 +1,4 @@
+[ESC]
+
+Clicks: 23, distance: 17235 pixel
+Test duration: 154.262s
