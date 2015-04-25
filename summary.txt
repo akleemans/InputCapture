@@ -1,4 +1,4 @@
-[ESC]
+[Left Control]q[Left Control]q[Left Control]
 
-Clicks: 23, distance: 17235 pixel
-Test duration: 154.262s
+Clicks: 14, distance: 5376 pixel
+Test duration: 11.918s

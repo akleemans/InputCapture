@@ -1,11 +1,17 @@
 InputCapture
 ============
 
-A simple tool for capturing user input like mouse positions, movement, key strokes and plotting them.
+A simple tool for capturing user input like mouse positions, clicks, movement, key strokes and plotting them.
 
 ## Usage
 
-For capturing mouse movement and keystrokes, just run the java code and press CTRL + Q to save. If you have trouble starting it, import it as a Eclipse project and it should work.
+===========
+## Remember: add to src directory JNatvieHook.jar (2.0 version)!
+(The java code makes use of the [jnativehook](http://code.google.com/p/jnativehook/) library (you guys are awesome!) which can capture mouse gestures and keyboard movement system-wide.)
+===========
+
+For capturing mouse movement and keystrokes, just run the java code and press CTRL + Q to save.
+It's also a project in Maven so after you **mvn compile** and **mvn package** it, there will be one ready-to-use *InputCapture.jar*.
 
 Remember: **CTRL + Q** _saves_ the log files and **overwrites** the old log files. So you might save your files after a run.
 
@@ -17,21 +23,13 @@ Standard output variables includes (first three in *summary.txt*):
 * distance covered by mouse movement
 * number of clicks
 * a csv with all the position data of the mouse (*positions.csv*)
-
-
-The java code makes use of the [jnativehook](http://code.google.com/p/jnativehook/) library (you guys are awesome!) which can capture mouse gestures and keyboard movement system-wide. 
-
-You can visualize the data by applying the `plot.py` program (you'll need python installed). It will plot all the given positions from **positions.csv** to a transparent PNG-image, which you can then combine with a screenshot of the scene the capture took place.
+* a csv with all the position of place where there was a mouse click (*clicks.csv*)
+* a transparent png file in which the movement(black color) and clicks(red color) are plotted from csv files (*path.png*) 
 
 You may want to customize your screen size and the line color, depending on the background of your screenshot you use to make the captured data visible:
 
     screen = (1366, 768)
     line_color = 'black'
 
-There's some sample data also in there, and you see a capture of me playing Angry Birds:
-
-![](https://raw.github.com/captainfox/InputCapture/master/result.png)
-
-
 ## Disclaimer
-This code is mostly untested and was written for quick use in the course Human-Computer-Interaction. It should work on Ubuntu 12.04, no clue if it works on Windows. Use at your own risk.
+This code is mostly untested and was written for quick use in the course Human-Computer-Interaction. It should work on Ubuntu 15.04 and 14.04, no clue if it works on Windows. Use at your own risk.

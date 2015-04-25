@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class Timer {
-	long _startTime;
+	private long _startTime;
 
 	public Timer() {
 		this.reset();

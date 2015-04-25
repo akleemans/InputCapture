@@ -8,8 +8,8 @@ public class Main {
 		
 		// add mouse and key listeners
 		Listener example = new Listener();
-		GlobalScreen.getInstance().addNativeKeyListener(example);
-		GlobalScreen.getInstance().addNativeMouseListener(example);
-		GlobalScreen.getInstance().addNativeMouseMotionListener(example);
+		GlobalScreen.addNativeKeyListener(example);
+		GlobalScreen.addNativeMouseListener(example);
+		GlobalScreen.addNativeMouseMotionListener(example);
 	}
 }
