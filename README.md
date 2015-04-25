@@ -5,7 +5,7 @@ A simple tool for capturing user input like mouse positions, clicks, movement, k
 
 ## Usage
 
-## Remember: add to src directory JNatvieHook.jar (2.0 version)!
+Remember: add to src directory JNatvieHook.jar (2.0 version) when you want to use Maven or add the libary in Eclipse or different IDE.
 
 For capturing mouse movement and keystrokes, just run the java code and press CTRL + Q to save.
 It's also a project in Maven so after you **mvn compile** and **mvn package** it, there will be one ready-to-use *InputCapture.jar*.
