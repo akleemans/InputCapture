@@ -1,8 +1,15 @@
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
@@ -14,7 +21,8 @@ public class Listener implements NativeKeyListener, NativeMouseInputListener {
 	int distance = 0, clicks = 0;
 	int lastx = 0, lasty = 0;
 	Timer t = new Timer();
-	List<String> positions = new LinkedList<String>();
+
+	List<Pair> positions =  new LinkedList<Pair>();
 
 	/*
 	 * keyboard
@@ -22,8 +30,15 @@ public class Listener implements NativeKeyListener, NativeMouseInputListener {
 	public void nativeKeyPressed(NativeKeyEvent e) {
 		String key = NativeKeyEvent.getKeyText(e.getKeyCode());
 		//System.out.println(key);
-		if (pressed.endsWith("[Strg]") && key.toUpperCase().equals("Q")) {
+		if (e.getKeyCode()==0x01) { //!
 			print();
+			try{
+				GlobalScreen.unregisterNativeHook();
+			} catch (NativeHookException ex){
+				System.out.println("Error unregistering nativehook, exitting anyway");
+				System.exit(1);
+			}
+			System.exit(0);
 		}
 		
 		if (key.length() < 3) {
@@ -56,33 +71,56 @@ public class Listener implements NativeKeyListener, NativeMouseInputListener {
 		distance += Math.sqrt(Math.pow(e.getX() - lastx, 2) + Math.pow(e.getY() - lasty, 2));
 		lastx = e.getX();
 		lasty = e.getY();
-		positions.add(e.getX() + "," + e.getY());
+		Pair tmp = new Pair();
+		tmp.x = e.getX();
+		tmp.y = e.getY();
+		positions.add(tmp);
 	}
 
 	public void print() {
 		// print summary
+		FileWriter fstream = null;
+		BufferedWriter out = null;
+		Plot plotter = null;
 		try {
-			FileWriter fstream = new FileWriter("summary.txt");
-			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(pressed + "\n\n");
+			fstream = new FileWriter("summary.txt");
+			out = new BufferedWriter(fstream);
+			out.flush();
+			out.write(pressed + System.getProperty("line.separator"));
 			out.write("Clicks: " + clicks + ", distance: " + distance + " pixel\n");
 			out.write("Test duration: " + t.timeElapsed() / 1000.0 + "s");
-			out.close();
+			out.flush();
+			plotter = Plot.getInstance();
+			plotter.drawChart(positions,java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width,java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
+		}	finally{
+			try {
+
+				out.close();
+			}catch (IOException ex){
+				System.err.println("Error: " + ex.getMessage());
+			}
 		}
 		
 		// print positions
 		try {
-			FileWriter fstream = new FileWriter("positions.csv");
-			BufferedWriter out = new BufferedWriter(fstream);
+			fstream = new FileWriter("positions.csv");
+			out = new BufferedWriter(fstream);
 
-			for (String pos : positions) {
-				out.write(pos + "\n");
+			for (Pair pos : positions) {
+				out.write(String.valueOf(pos.x) + "," + String.valueOf(pos.y) + "\n");
 			}
-			out.close();
+
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
+		}
+		finally{
+			try {
+				out.close();
+			}catch (IOException ex){
+				System.err.println("Error: " + ex.getMessage());
+			}
 		}
 		
 		System.out.println("Saved logs and cleared history.");
