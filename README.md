@@ -7,9 +7,9 @@ A simple tool for capturing user input like mouse positions, movement, key strok
 
 For capturing mouse movement and keystrokes, just run the java code and press CTRL + Q to save. If you have trouble starting it, import it as a Eclipse project and it should work.
 
-Remember: **CTRL + Q** _saves_ the log files and **overwrites** the old log files. So you might save your files after a run.
+Remember: **[ESC]** _saves_ the log files and **overwrites** the old log files. So you might save your files after a run.
 
-For starting a new capture, I suggest to run the Code, and press CTRL + Q if you're ready (that will override the existing data). Then capture your run (or let the users do the tests) and at the end, hit CTRL + Q again to save the data until to that point. You can then end the running java code without writing that back into files.
+For starting a new capture, I suggest to run the Code, and press [ESC] if you're ready (that will override the existing data). Then capture your run (or let the users do the tests) and at the end, hit [ESC] again to save the data until to that point. You can then end the running java code without writing that back into files.
 
 Standard output variables includes (first three in *summary.txt*):
 
@@ -35,3 +35,4 @@ There's some sample data also in there, and you see a capture of me playing Angr
 
 ## Disclaimer
 This code is mostly untested and was written for quick use in the course Human-Computer-Interaction. It should work on Ubuntu 12.04, no clue if it works on Windows. Use at your own risk.
+(*) Fixed by rfg1: It should work on Windows, just be careful in multi-monitor settings as mouse positioning most likely will fail when on secondary display. This project was expanded as a part of my Java class and it wasn't thoroughly tested.
