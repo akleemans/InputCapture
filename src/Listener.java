@@ -15,33 +15,33 @@ public class Listener implements NativeKeyListener, NativeMouseInputListener {
 	int lastx = 0, lasty = 0;
 	Timer t = new Timer();
 	List<String> positions = new LinkedList<String>();
+	List<Counter> buttonFrequency = new LinkedList<Counter>();
+	Counter currentSecond = new Counter(-1); //just to avoid complicating code during counting
 
 	/*
-	 * keyboard
+	 * keyboard[]()*"'
 	 */
 	public void nativeKeyPressed(NativeKeyEvent e) {
-		String key = NativeKeyEvent.getKeyText(e.getKeyCode());
+		int keyCode = e.getKeyCode();
+		String key = NativeKeyEvent.getKeyText(keyCode);
 		//System.out.println(key);
-		if (pressed.endsWith("[Strg]") && key.toUpperCase().equals("Q")) {
+		if (pressed.endsWith("[" + NativeKeyEvent.getKeyText(NativeKeyEvent.VC_CONTROL_L) + "]") && key.toUpperCase().equals("Q")) {
 			print();
 		}
-		
 		if (key.length() < 3) {
 			pressed = pressed + key;
-		} else if (key.equals("Leertaste")) {
-			pressed = pressed + " ";
-		} else if (key.equals("Sternchen")) {
-			pressed = pressed + "*";
-		} else if (key.equals("Doppelte Anführungszeichen")) {
-			pressed = pressed + "''";
-		} else if (key.equals("Rechte Klammer")) {
-			pressed = pressed + ")";
-		} else if (key.equals("Linke Klammer")) {
-			pressed = pressed + "(";
-		} else if (key.equals("Anführungszeichen")) {
-			pressed = pressed + "(";
 		} else {
 			pressed = pressed + "[" + key + "]";
+		}
+		
+		//incrementing number of keys pressed in this second
+		int second = new Double(Math.floor(this.t.timeElapsed()/1000)).intValue();
+		if(this.currentSecond.getSecond() == second) {
+			this.currentSecond.increment();
+		} else {
+			this.currentSecond = new Counter(second);
+			this.currentSecond.increment();
+			this.buttonFrequency.add(this.currentSecond);
 		}
 	}
 
@@ -67,6 +67,7 @@ public class Listener implements NativeKeyListener, NativeMouseInputListener {
 			out.write(pressed + "\n\n");
 			out.write("Clicks: " + clicks + ", distance: " + distance + " pixel\n");
 			out.write("Test duration: " + t.timeElapsed() / 1000.0 + "s");
+			out.flush();
 			out.close();
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
@@ -77,16 +78,38 @@ public class Listener implements NativeKeyListener, NativeMouseInputListener {
 			FileWriter fstream = new FileWriter("positions.csv");
 			BufferedWriter out = new BufferedWriter(fstream);
 
-			for (String pos : positions) {
+			for (String pos : this.positions) {
 				out.write(pos + "\n");
 			}
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		
+		//create graphical representation of mouse movement and pressing keys frequency (basing on config file)
+		Draw draw = new Draw();
+		draw.drawPath(this.positions);
+		draw.drawFrequencyDiagram(this.buttonFrequency);
+		
+		// print frequency of pressing buttons
+		try {
+			FileWriter fstream = new FileWriter("buttonFrequency.csv");
+			BufferedWriter out = new BufferedWriter(fstream);
+			
+			for(Counter freq : this.buttonFrequency) {
+				out.write(freq.getSecond() + "," + freq.getResult() + System.lineSeparator());
+			}
+			out.flush();
 			out.close();
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
 		
 		System.out.println("Saved logs and cleared history.");
-		positions.clear();
+		this.positions.clear();
+		this.buttonFrequency.clear();
+		this.currentSecond = new Counter(-1);
 	}
 
 	public void nativeKeyTyped(NativeKeyEvent e) { }
@@ -94,4 +117,5 @@ public class Listener implements NativeKeyListener, NativeMouseInputListener {
 	public void nativeMousePressed(NativeMouseEvent e) { }
 	public void nativeMouseReleased(NativeMouseEvent e) { }
 	public void nativeMouseDragged(NativeMouseEvent e) { }
+	
 }
